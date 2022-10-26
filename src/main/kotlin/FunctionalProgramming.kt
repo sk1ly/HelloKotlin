@@ -72,4 +72,42 @@ fun main() {
     for (user in users) {
         println("Имя: ${user.first}; Телефон: ${user.second}")
     }
+
+//  Функция flatmap
+
+    val data = mapOf(
+        "file1" to listOf(1, 3, 45, 98, 2),
+        "file2" to listOf(670000, 4, -3, 34, 43),
+        "file3" to listOf(87, 2, 1, 22, 3)
+    )
+    val average = data.filter { it.value.all { it >= 0 } }.flatMap { it.value }.average()
+    println(average)
+
+//  Контрольная работа по коллекциям
+
+    val weeklyEarningsData = mapOf(
+        "Январь" to listOf(100, 100, 100, 100),
+        "Февраль" to listOf(200, 200, -190, 200),
+        "Март" to listOf(300, 180, 300, 100),
+        "Апрель" to listOf(250, -250, 100, 300),
+        "Май" to listOf(200, 100, 400, 300),
+        "Июнь" to listOf(200, 100, 300, 300)
+    )
+    printInfo(weeklyEarningsData)
+
+}
+
+fun printInfo(weeklyEarningsData: Map<String, List<Int>>) {
+    println("Средняя выручка в неделю: " + weeklyEarningsData
+        .filter { it.value.all { it >= 0 } }
+        .flatMap { it.value }
+        .average())
+
+    println("Средняя выручка в месяц: " + weeklyEarningsData
+        .filter { it.value.all { it >= 0 } }
+        .map { it.value }
+        .sumOf { earnings: List<Int> -> earnings.average() })
+
+//    TODO
+
 }
