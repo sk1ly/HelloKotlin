@@ -1,5 +1,7 @@
 package ru.sk1ly
 
+val nullableList: MutableList<Int>? = mutableListOf()
+
 fun main() {
 
 //  Базовые вещи
@@ -26,7 +28,7 @@ fun main() {
     printName("Ололоша")
     println(descSort(listOf(1, 3, -8, 2, 10, 0)))
 
-//  Функции высшего порядка - filter и map
+//  Функции filter и map
 
     val texts = mutableListOf("Алло", "Картоха", "Акула")
     val textsStartsWithA = texts.filter { it.startsWith("А") }
@@ -95,19 +97,72 @@ fun main() {
     )
     printInfo(weeklyEarningsData)
 
+//  Функции let и with
+
+    nullableList?.let { // если nullableList == null, то блок в let не будет выполнен
+        with(nullableList) { // nullableList можно не указывать в таком случае далее
+            for (i in 1 until 1000) {
+                add((0..1000).random())
+            }
+            println(filter { it % 2 == 0 }.take(100))
+        }
+    }
+
+//  Свои функции
+
+    operateWithIntCollection(listOf(4, 8, 15, 16, 23, 42)) { println(it.sum()) }
+
+//  Extension функции
+
+    val number9 = 9
+    println(number9.isPrime())
+    val number5 = 5
+    println(number5.isPrime())
+    val number1 = 1
+    println(number1.isPrime())
+
+    myWith("hehehe") {
+        println(substring(1))
+    }
+
 }
 
-fun printInfo(weeklyEarningsData: Map<String, List<Int>>) {
-    println("Средняя выручка в неделю: " + weeklyEarningsData
-        .filter { it.value.all { it >= 0 } }
+private fun printInfo(weeklyEarningsData: Map<String, List<Int>>) {
+    val validData = weeklyEarningsData.filter { it.value.all { it >= 0 } }
+
+    println("Средняя выручка в неделю: " + validData
         .flatMap { it.value }
         .average())
 
-    println("Средняя выручка в месяц: " + weeklyEarningsData
-        .filter { it.value.all { it >= 0 } }
+    println("Средняя выручка в месяц: " + validData
         .map { it.value }
         .sumOf { earnings: List<Int> -> earnings.average() })
 
-//    TODO
+    println("Максимальная выручка в месяц: " + validData
+        .map { it.value }
+        .maxOf { earnings: List<Int> -> earnings.sum() })
 
+    println("Минимальная выручка в месяц: " + validData
+        .map { it.value }
+        .minOf { earnings: List<Int> -> earnings.sum() })
+
+    println("Ошибки произошли в следующих месяцах: " + weeklyEarningsData
+        .filter { it.value.any { it < 0 } }
+        .map { it.key })
+}
+
+private inline fun operateWithIntCollection(intCollection: List<Int>, operate: (List<Int>) -> Unit) { // inline - чтоб не создавался объект анонимного класса, лучше использовать для мелких функций
+    return operate(intCollection)
+}
+
+private fun Int.isPrime(): Boolean {
+    if (this <= 3) return true
+    for (i in 2 until this) {
+        if (this % i == 0) return false
+    }
+    return true
+}
+
+private inline fun<T, R> myWith(obj: T, operation: T.() -> R): R {
+    return obj.operation()
 }
