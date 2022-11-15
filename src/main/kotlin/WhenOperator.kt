@@ -1,7 +1,11 @@
 package ru.sk1ly
 
+import ru.sk1ly.Month.*
+import ru.sk1ly.Season.*
+
 fun main() {
     printSeasonFromTextMonth()
+    printSeasonFromEnumMonth()
     printSeasonFromNumberMonth()
     printWhatINeedToDo()
 }
@@ -17,6 +21,17 @@ private fun printSeasonFromTextMonth() {
         else -> "Не найдено"
     }
     println("Текущее время года - $season")
+}
+
+private fun printSeasonFromEnumMonth() {
+    val month = JANUARY
+    val season = when (month) {
+        DECEMBER, JANUARY, FEBRUAURY  -> WINTER
+        MARCH, APRIL, MAY -> SPRING
+        JUNE, JULY, AUGUST -> SUMMER
+        SEPTEMBER, OCTOBER, NOVEMBER -> AUTUMN
+    }
+    println("Текущее время года - ${season.rusName}")
 }
 
 private fun printSeasonFromNumberMonth() {
