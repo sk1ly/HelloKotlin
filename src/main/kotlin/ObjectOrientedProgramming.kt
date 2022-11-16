@@ -1,5 +1,7 @@
 package ru.sk1ly
 
+import ru.sk1ly.data.*
+
 fun main() {
 
 // Геттеры и сеттеры
@@ -15,7 +17,7 @@ fun main() {
     val book1 = Book("Книга 1", 1994, 499)
     val book2 = Book("Книга 2")
 
-    val employee1 = Employee("Иван", "Middle QA", 2020)
+    val employee1 = Seller("Иван", "Middle QA", 2020)
     employee1.printInfo()
 
 // Data-классы сразу предоставляют:
@@ -35,6 +37,23 @@ fun main() {
 
     val address3 = address1.copy() // метод copy
     println(address3)
+
+// Наследование
+
+    val employees = mutableListOf<Employee>()
+    employees.add(Seller("Василий", "Senior QA", 2022))
+    employees.add(Programmer("Михаил", "Middle Programmer", 2015, "Java"))
+    employees.add(Seller("Анна", "Бухгалтер", 2019))
+    employees.add(Director("Михал Палыч", "Директор", 2010))
+    for (e in employees) {
+        e.work()
+        if (e is Cleaner) {
+            e.clean() // smart-cast
+        }
+    }
+
+    var cleanerEmployees = mutableListOf<Cleaner>()
+    cleanerEmployees = employees.filter { it is Cleaner }.map { it as Cleaner }.toMutableList() // Делаем всех работников уборщиками (кого возможно)
 }
 
 fun Employee.printInfo() = println("Опыт работы у $name (должность $function) - $experience года/лет")

@@ -1,7 +1,7 @@
 package ru.sk1ly
 
-import ru.sk1ly.Month.*
-import ru.sk1ly.Season.*
+import ru.sk1ly.data.Month.*
+import ru.sk1ly.data.Season.*
 
 fun main() {
     printSeasonFromTextMonth()

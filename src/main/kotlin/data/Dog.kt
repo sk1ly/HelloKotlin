@@ -1,4 +1,4 @@
-package ru.sk1ly
+package ru.sk1ly.data
 
 class Dog {
 
