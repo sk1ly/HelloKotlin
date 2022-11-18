@@ -54,6 +54,13 @@ fun main() {
 
     var cleanerEmployees = mutableListOf<Cleaner>()
     cleanerEmployees = employees.filter { it is Cleaner }.map { it as Cleaner }.toMutableList() // Делаем всех работников уборщиками (кого возможно)
+
+// Статика
+
+    println(MyRandom.randomInt(0..1000))
+    println(MyRandom.randomBoolean())
+    println(MyRandom.randomDayOfWeek())
+
 }
 
 fun Employee.printInfo() = println("Опыт работы у $name (должность $function) - $experience года/лет")
